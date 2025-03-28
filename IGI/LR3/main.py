@@ -4,7 +4,7 @@ from string_calc import string_calc
 from string_parser import parse_string
 from lists import enter_list, solve_task_5, print_list
 
-    
+
 task_num = ''
 while task_num != 0:
     while task_num is not int:
