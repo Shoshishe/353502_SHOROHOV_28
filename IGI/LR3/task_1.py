@@ -1,4 +1,5 @@
 import math
+
 MAX_ITERATION_COUNT = 500
 
 
@@ -43,8 +44,8 @@ def series() -> float:
         Function for taking variable a to the power of n, where n is an integer
          Params:
          ----
-         a (int)  - The value to take power of
-         n (int)  - The power to take the value to
+         a (numeric) - The value to take power of
+         n (int) - The power to take the value to
          ----
          Returns: a^n
         """

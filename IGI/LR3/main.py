@@ -1,8 +1,8 @@
 from task_2.list_min import find_minimum_and_sum_in_range
-from series import series
-from string_calc import string_calc
-from string_parser import parse_string
-from lists import enter_list, solve_task_5, print_list
+from task_1 import series
+from task_3 import string_calc
+from task_4 import parse_string
+from task_5 import enter_list, solve_task_5
 
 
 task_num = ''
@@ -16,7 +16,10 @@ while task_num != 0:
         except ValueError:
             print("Enter a valid number")    
     if task_num == 1:
-        series()     
+        try:
+          series()
+        except TimeoutError:
+            print("Time limit exceeded")     
     if task_num == 2:            
         find_minimum_and_sum_in_range()
     if task_num == 3:
@@ -25,6 +28,5 @@ while task_num != 0:
         parse_string()
     if task_num == 5:
         floats_list = enter_list()
-        solve_task_5(floats_list=floats_list)
-        print_list(floats_list)
+        solve_task_5(floats_list)
         
