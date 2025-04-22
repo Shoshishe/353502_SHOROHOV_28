@@ -1,0 +1,6 @@
+Count of sentences in text: 6
+Count of asserting sentences: 4
+Count of questioning sentences: 1
+Count of prompting sentences: 1
+Average length of word in sentences: 2.0
+Count of emojis in text: 1
