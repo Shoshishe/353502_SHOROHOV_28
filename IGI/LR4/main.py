@@ -25,3 +25,4 @@ while user_input != 0:
         if user_input == 5:
             solve_task_5()
         break
+

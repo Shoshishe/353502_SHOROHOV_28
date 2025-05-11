@@ -2,6 +2,7 @@ import csv
 import pickle
 from functools import cmp_to_key
 
+
 class Student:
     def __init__(self, surname: str, musical_instrument: str):
         # Let's think of it as a primary key. Yeah...
