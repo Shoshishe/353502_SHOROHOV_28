@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block style %}
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+{% endblock %}
+{% block title %}
+  FAQ page
+{% endblock %}
+{% block content %}
+  <form method="POST" action="create_faq">
+    {% csrf_token %}
+    <p>
+      <label>Enter questions</label><br />
+      <input type="text" name="question" />
+    </p>
+    <p>
+      <label>Enter answer</label><br />
+      <input type="text" name="answer" />
+    </p>
+    <input type="submit" value="Save" />
+  </form>
+  {% if faqs.count > 0 %}
+    <h2>Frequently asked questions</h2>
+    <table>
+      <thead>
+        <th>Question</th>
+        <th>Answer</th>
+      </thead>
+      {% for faq in faqs %}
+        <tr>
+          <td>{{ faq.question }}</td>
+          <td>{{ faq.answer }}</td>
+          <td>
+            <a href="edit/{{ faq.question }}">Edit</a> | <a href="delete/{{ faq.question }}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <a href="/"><button>Return</button></a>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block style %}
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  {% if role == 'client' %}
+    {% if wholesalers.count > 0 %}
+      <h2>Wholesalers</h2>
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Phone</th>
+        </thead>
+        {% for wholesaler in wholesalers %}
+          <tr>
+            <td>{{ wholesaler.name }}</td>
+            <td>{{ wholesaler.phone_number }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if bought.count > 0 %}
+      <h2>Bought furnitures</h2>
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Bought at</th>
+          <th>Owner name</th>
+        </thead>
+        {% for pr in bought %}
+          <tr>
+            <td>{{ pr.furniture.name }}</td>
+            <td>{{ pr.bought_at }}</td>
+            <td>{{ pr.owner.username }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  {% endif %}
+  {% if role == 'customer' %}
+    <h2>KILL ME</h2>
+    {% if bought.count > 0 %}
+      <h2>Bought furnitures</h2>
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Bought at</th>
+          <th>Price</th>
+        </thead>
+        {% for pr in bought %}
+          <tr>
+            <td>{{ pr.furniture.name }}</td>
+            <td>{{ pr.bought_at }}</td>
+            <td>{{ pr.furniture.price }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if furnitures.count > 0 %}
+      <h2>Furnitures</h2>
+      {% for furniture in furnitures %}
+        <div>
+          <tr>
+            <td>Name: {{ furniture.name }}</td>
+            <td>Price: {{ furniture.price }}</td>
+          </tr>
+          <form method="post">
+            <input type="hidden" name="name" value="{{ furniture.name }}" />
+            <input type="hidden" name="price" value="{{ furniture.name }}" />
+            <input type="submit" value="Buy" />
+          </form>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <h2>History of coupons</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total discount</th>
+          <th>Is archivated?</th>
+        </tr>
+      </thead>
+      {% for coupon in coupons %}
+        <tr>
+          <td>{{ coupon.name }}</td>
+          <td>{{ coupon.discount }}%</td>
+          <td>{{ coupon.is_archivated }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <a href="/"><button>Return</button></a>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Home
+{% endblock %}
+
+{% block style %}
+  <style>
+    .box {
+      border: 10px solid black;
+      padding: 10px;
+      margin: 10px;
+    }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <nav>
+      <a href="/faqs">FAQ</a>
+      <a href="/news">News</a>
+      <a href="/contacts">Contacts</a>
+      <a href="/policy">Policy</a>
+      <a href="/comments">Comments</a>
+      <a href="/promocodes">Promocodes</a>
+      <a href="/about">About</a>
+      {% if not user.is_superuser %}
+        <a href="/personal_account">Personal account</a>
+      {% endif %}
+    </nav>
+    {% include 'time.html' with tz=tz utc_time=utc_time %}
+    <p>Hi {{ user.username }}!</p>
+    <p>
+      <a href="{% url 'password_change' %}">Password Change</a>
+    </p>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Log Out</button>
+    </form>
+    {% if request.user.is_superuser %}
+      <h2>Statistics</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Stat</th>
+          </tr>
+        </thead>
+        {% for stat in stats %}
+          <tr>
+            <td>{{ stat.name }}</td>
+            <td>{{ stat.value }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      {% for graphic in graphics %}
+        <article class="box" style="width: max-content; height: max-content;">
+          <h2>{{ graphic.name }}</h2>
+          <image src="{{ graphic.file_path }}" width="500" height="300"></image>
+        </article>
+      {% endfor %}
+    {% endif %}
+  {% else %}
+    <p>You are not logged in</p>
+    <p>
+      <a href="{% url 'password_reset' %}">Password Reset</a>
+    </p>
+    <p>
+      <a href="{% url 'signup' %}">Sign up</a>
+    </p>
+    <p>
+      <a href="{% url 'login' %}">Log In</a>
+    </p>
+  {% endif %}
+  {% if not user.is_authenticated %}
+    {% if coupons.count > 0 %}
+      <h2>Currently active coupons</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Total discount</th>
+          </tr>
+        </thead>
+        {% for coupon in coupons %}
+          <tr>
+            <td>{{ coupon.name }}</td>
+            <td>{{ coupon.discount }}%</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    {% if kinds.count > 0 %}
+      <h2>Currently available furniture categories</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        {% for kind in kinds %}
+          <tr>
+            <td>{{ kind.name }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+    <h2>Products</h2>
+    <form action="{% url 'home' %}" method="post">
+      <input type="checkbox" id="html" name="sort" value="sort" />
+      <label for="html">Sort</label><br />
+      <input type="text" name="min_price" maxlength="4" size="3" />to<input type="text" name="max_price" maxlength="4" size="3" />
+      {% csrf_token %}
+      <button type="submit">Filter</button>
+    </form>
+    {% if products.count > 0 %}
+      <p>Price</p>
+      <h2>Currently available products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  {% endif %}
+  <p>Weather in {{ info.city }}</p>
+  <p>
+    Temperature {{ info.temp }}<sup>0</sup>
+  </p> <br />
+  <img src="http://openweathermap.org/img/wn/{{ info.icon }}@2x.png" />
+{% endblock %}

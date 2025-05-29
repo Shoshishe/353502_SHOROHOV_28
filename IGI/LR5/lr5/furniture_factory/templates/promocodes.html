@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block style %}
+  <style>
+    .box {
+      border: 10px solid black;
+      padding: 10px;
+      margin: 10px;
+    }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  {% if coupons.count > 0 %}
+    <h2>All coupons</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total discount</th>
+        </tr>
+      </thead>
+      {% for coupon in coupons %}
+        <tr>
+          <td>{{ coupon.name }}</td>
+          <td>{{ coupon.discount }}%</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <a href="/"><button>Return</button></a>
+{% endblock %}

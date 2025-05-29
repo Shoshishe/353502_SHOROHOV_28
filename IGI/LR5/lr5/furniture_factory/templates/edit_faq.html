@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block style %}
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <p>
+      <label>Enter the question</label><br />
+      <input type="text" name="question" value="{{ faq.question }}" />
+    </p>
+    <p>
+      <label>Enter the answer</label><br />
+      <input type="text" name="answer" value="{{ faq.answer }}" />
+    </p>
+    <input type="submit" value="Save" />
+  </form>
+{% endblock %}
