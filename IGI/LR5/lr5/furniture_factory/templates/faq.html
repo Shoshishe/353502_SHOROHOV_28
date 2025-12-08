@@ -19,13 +19,17 @@
       <input type="text" name="question" />
     </p>
     <p>
-      <label>Enter answer</label><br />
-      <input type="text" name="answer" />
+      <label>Select answer</label><br />
+      <select type="text" name="answer">
+        <option value="Very good">Very good</option>
+        <option value="Even better">Even better</option>
+        <option selected disabled>Somewhere in the middle</option>
+      </select>
     </p>
     <input type="submit" value="Save" />
   </form>
   {% if faqs.count > 0 %}
-    <h2>Frequently asked questions</h2>
+    <h2 itemscope itemtype="http://schema.org/FAQPage">Frequently asked questions</h2>
     <table>
       <thead>
         <th>Question</th>

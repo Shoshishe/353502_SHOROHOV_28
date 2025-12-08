@@ -1,0 +1,27 @@
+button,
+input[type="submit"] {
+    cursor: pointer;
+}
+
+input[type="checkbox"].block-checkbox:checked,
+input[type="radio"].block-checkbox>:checked {
+    accent-color: #89b4fa;
+    width: 20px;
+    height: 20px;
+}
+
+input[type="checkbox"].block-checkbox:not(:checked),
+input[type="radio"].block-checkbox:not(:checked) {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--bg-color);
+    cursor: pointer;
+}
+
+button {
+    background-color: var(--button-color);
+}
+
+input {
+    background-color: var(--button-color);
+}

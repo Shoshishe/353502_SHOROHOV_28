@@ -21,6 +21,13 @@ class FurnitureModel(models.Model):
     name = models.CharField(max_length=255)
 
 
+# TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+class Partner(models.Model):
+    name = models.CharField(max_length=255)
+    link = models.CharField(max_length=255)
+    logo = models.FileField()
+
+
 class Client(models.Model):
     code = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -32,6 +39,7 @@ class Client(models.Model):
 class News(models.Model):
     header = models.CharField(max_length=255)
     image_path = models.ImageField(blank=True)
+    shorthand = models.CharField(max_length=255, default="")
     content = models.CharField(max_length=255, default="")
 
 
@@ -42,6 +50,7 @@ class Promocode(models.Model):
 
 
 class Comment(models.Model):
+    topic = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     rating = models.FloatField(default=5.0)
     text = models.CharField(max_length=255, default="")
@@ -50,9 +59,10 @@ class Comment(models.Model):
 
 class About(models.Model):
     text = models.TextField()
-    video = models.FileField()
-    logo = models.FileField()
+    video = models.FileField(upload_to='videos/')
+    logo = models.FileField(upload_to='logos/')
     requisites = models.TextField()
+    cert = models.TextField(default="rnd_name")
 
 
 class Vacancy(models.Model):
@@ -96,7 +106,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, max_length=50)
     username = models.CharField(unique=True, max_length=20)
     age = models.IntegerField(default=18)
-    phone = models.CharField(default="+375291435499")
+    phone = models.CharField(default="+375291435499", max_length=20)
     password = models.CharField(max_length=20)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -106,9 +116,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Contacts(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField()
     description = models.CharField(max_length=255)
+    email = models.EmailField(default="rndemail@gmail.com")
+    phone = models.TextField(default="+375382283711")
+    username = models.TextField(default="labwc")
 
 
 class BoughtFurniture(models.Model):
@@ -116,3 +128,13 @@ class BoughtFurniture(models.Model):
                               on_delete=models.CASCADE)
     furniture = models.ForeignKey(Furniture, on_delete=models.CASCADE)
     bought_at = models.DateField()
+
+
+class CartItem(models.Model):
+    furn = models.ForeignKey(Furniture, on_delete=models.CASCADE)
+    count = models.IntegerField(auto_created=1)
+
+
+class Cart(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    furnitures = models.ManyToManyField(CartItem)

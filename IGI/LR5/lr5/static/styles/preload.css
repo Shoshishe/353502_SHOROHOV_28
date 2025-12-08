@@ -1,0 +1,28 @@
+@keyframes preload {
+    0% {
+        opacity: 1;
+        transform: rotate(0deg) translateX(0px) translateY(0px);
+    }
+
+    50% {
+        transform: translateX(calc(500px - var(--i)*sqrt(2)*75px + round(down, (var(--i))/2) * sqrt(2)*75px)) translateY(calc(237px + var(--i) * 75px*sqrt(2) - round(down, var(--i)/2) * 3 * 75px * sqrt(2) + var(--i)*-170px)) rotate(45deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(calc(500px - var(--i)*sqrt(2)*75px + round(down, (var(--i))/2) * sqrt(2)*75px)) translateY(calc(237px + var(--i) * 75px*sqrt(2) - round(down, var(--i)/2) * 3 * 75px * sqrt(2) + var(--i)*-170px)) rotate(45deg);
+        opacity: 1;
+    }
+}
+
+.cube {
+    width: 150px;
+    aspect-ratio: 1;
+    --colors: #f38ba8, #89b4fa, #a6e3a1, #cba6f7;
+    --n: 4;
+    --i: 0;
+    animation-fill-mode: forwards;
+    background: linear-gradient(var(--colors)) no-repeat 0 calc(var(--i)*100%/(var(--n) - 1))/100% calc(1px*infinity);
+    animation: preload 1.2s ease-out infinite;
+    animation-delay: calc(0.2s * var(--i));
+}

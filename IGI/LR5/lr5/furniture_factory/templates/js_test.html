@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+  <div id="preloader">
+    <div class="cube"></div>
+    <br />
+    <div class="cube" style="--i:1"></div>
+    <br />
+    <div class="cube" style="--i:2"></div>
+    <br />
+    <div class="cube" style="--i:3"></div>
+  </div>
+  <section id="content" style="display:none;">
+    <canvas id="acquisitions"></canvas>
+
+    <div id="addFormContainer">
+      <button id="addForm">Add</button>
+    </div>
+    <table id="contacts-table">
+      <thead>
+        <th>Name</th>
+        <th>Phone number</th>
+        <th>Email</th>
+        <th>Give award</th>
+        <th>Photo</th>
+      </thead>
+      <tbody>
+        {% for contact in contacts %}
+          <tr class="contact-info">
+            <td>{{ contact.username }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.email }}</td>
+            <td style="display: none;">{{ contact.description }}</td>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>
+              <img src="{{ contact.photo.url }}" style="width: 300px; height: 400px;" />
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <input type="text" id="contacts-filter-data" />
+    <button id="contacts-filter">Filter</button>
+
+    <section class="pagination-container"></section>
+    <article id="contact-description"></article>
+    <article id="contact-awarded"></article>
+
+    <button id="input-create">Create input</button>
+    <section id="custom-inputs" style="display: flex; align-items: baseline; flex-direction: column; justify-content: baseline;"></section>
+
+    <section id="oop-data"></section>
+    <section id="oop-filtered"></section>
+
+    <section>
+      <label>Surname</label>
+      <br />
+      <input type="text" id="oop-surname" />
+      <br />
+      <label>Name</label>
+      <br />
+      <input type="text" id="oop-name" />
+      <br />
+      <label>Flight</label>
+      <br />
+      <input type="text" id="oop-flight" />
+      <br />
+      <input type="submit" id="oop-submit" />
+    </section>
+    <a href="/"><button>Return</button></a>
+  </section>
+
+  <script defer src="/static/js/preload.js"></script>
+  <script defer src="/static/js/chartusage.js"></script>
+  <script defer src="/static/js/workers.js"></script>
+  <script defer src="/static/js/inputs.js"></script>
+  <script defer src="/static/js/oop.js"></script>
+{% endblock %}

@@ -1,0 +1,20 @@
+input:disabled {
+    background-color: #7f849c;
+}
+
+input:required {
+    border: 2px solid var(--accent-color);
+}
+
+input:out-of-range {
+    background-color: #cba6f7;
+    border: 2px;
+}
+
+select option:disabled {
+    color: #a6adc8;
+}
+
+select option:enabled {
+    color: #89b4fa
+}

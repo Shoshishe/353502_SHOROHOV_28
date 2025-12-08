@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}
+  Cart
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block content %}
+  {% if put.count > 0 %}
+    <h2>Put furnitures</h2>
+    <div class="furniture-container">
+      {% for pr in put %}
+        <article class="box" style="width: max-content; height: max-content; text-align: center;" itemscope itemtype="http://schema.org/Product">
+          <table class="box" itemprop="Name">
+            <thead>
+              <th colspan="2">Name with code</th>
+              <th>Price</th>
+            </thead>
+            <tr>
+              <td>{{ pr.furn.name }}</td>
+              <td>{{ pr.furn.product_code }}</td>
+              <td>{{ pr.furn.price }}</td>
+            </tr>
+          </table>
+          <span style="display: flex; justify-content: center; align-items: center;">
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="add" value="{{ pr.id }}" />
+              <input type="submit" value="+" />
+            </form>
+            <p>{{ pr.count }}</p>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="sub" value="{{ pr.id }}" />
+              <input type="submit" value="-" />
+            </form>
+          </span>
+        </article>
+      {% endfor %}
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="buy" value="somestr" />
+      <input type="submit" value="Buy all" />
+    </form>
+  {% endif %}
+
+  <a href="/"><button>Return</button></a>
+{% endblock %}

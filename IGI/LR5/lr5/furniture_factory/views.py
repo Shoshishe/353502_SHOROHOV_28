@@ -2,14 +2,14 @@ from decimal import Decimal
 from typing import List
 import logging
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseNotFound, HttpRequest, HttpResponseRedirect
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django import forms
-from .models import FAQ, News, FurnitureKind, Furniture, User, Wholesalers, BoughtFurniture, PointsOfDelivery, Contacts, Comment
+from .models import FAQ, News, FurnitureKind, Furniture, User, Wholesalers, BoughtFurniture, PointsOfDelivery, Partner, Contacts, Comment, About, Cart, CartItem
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import Group
 from datetime import datetime, timezone
@@ -24,6 +24,7 @@ import pytz
 from django.contrib.auth import login
 import matplotlib.pyplot as plt
 import numpy as np
+from django.views.decorators.csrf import csrf_exempt
 
 
 def role_based_access_required(role):
@@ -272,12 +273,15 @@ def index(request: HttpRequest):
     appid = '63026ab922acdc159af4d7d5c6adca54'
     url = 'https://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=' + appid
     city = 'Minsk'
-    res = requests.get(url.format(city)).json()
-    city_info = {
-        'city': city,
-        'temp': res["main"]["temp"],
-        'icon': res["weather"][0]["icon"]
-    }
+    try:
+        res = requests.get(url.format(city)).json()
+        city_info = {
+            'city': city,
+            'temp': res["main"]["temp"],
+            'icon': res["weather"][0]["icon"]
+        }
+    except:
+        city_info = None
 
     timezone_name = request.session['django_timezone']
     stats = []
@@ -375,8 +379,17 @@ def delete(request, id):
 
 @login_required
 def news(request: HttpRequest):
-    news = News.objects.last()
-    return render(request, "news.html", {"header": news.header, "image": news.image_path, "content": news.content})
+    news = News.objects.all()
+    if request.method == 'POST':
+        model_id = request.POST.get('model_id')
+        return redirect(f'/news/{model_id}')
+    return render(request, "news.html", {"news": news})
+
+
+@login_required
+def new(request: HttpRequest, new_id: int):
+    new = get_object_or_404(News, pk=new_id)
+    return render(request, f"new.html", {"new": new})
 
 
 class ProductBuyingForm(forms.Form):
@@ -395,7 +408,7 @@ def personal_account(request: HttpRequest):
     if client:
         context["role"] = "client"
         wholesalers = Wholesalers.objects.all()
-        bought = BoughtFurniture.objects.all()
+        bought = BoughtFurniture.objects.filter(owner=request.user)
         context["wholesalers"] = wholesalers
         context["bought"] = bought
 
@@ -412,11 +425,13 @@ def personal_account(request: HttpRequest):
             coupon.discount *= 100
         context["coupons"] = coupons
         if request.method == "POST":
-            price = request.POST.get("price")
-            name = request.POST.get("name")
-            furniture = Furniture.objects.filter(name=name).first()
-            BoughtFurniture.objects.create(
-                furniture=furniture, bought_at=datetime.now().date(), owner=request.user)
+            id = request.POST.get("id")
+            furniture = Furniture.objects.filter(pk=id).first()
+            cart_t = Cart.objects.get_or_create(owner=request.user)
+            new_i = CartItem.objects.create(furn=furniture, count=1)
+            cart_t[0].furnitures.add(new_i)
+            # BoughtFurniture.objects.create(
+            #     furniture=furniture, bought_at=datetime.now().date(), owner=request.user)
     elif admin:
         context["role"] = "admin"
     else:
@@ -445,7 +460,8 @@ def promocodes(request: HttpRequest):
 
 @login_required
 def about(request: HttpRequest):
-    return render(request, "about.html", {})
+    abouts = About.objects.all()
+    return render(request, "about.html", {"abouts": abouts})
 
 
 @login_required
@@ -483,3 +499,64 @@ def create_comments(request: HttpRequest):
         logging.ERROR(
             f"Invalid request method for create_comments {request.method} desired one is POST")
     return HttpResponseRedirect("/comments")
+
+
+@login_required
+def cart(request: HttpRequest):
+    try:
+        if request.method == "POST":
+            add = request.POST.get("add")
+            sub = request.POST.get("sub")
+            buy = request.POST.get("buy")
+            print(add)
+            if add is not None:
+                ct = CartItem.objects.filter(pk=int(add)).first()
+                ct.count = ct.count + 1
+                ct.save()
+            elif sub is not None:
+                ct = CartItem.objects.filter(pk=int(sub)).first()
+                ct.count = ct.count - 1
+                ct.save()
+                if ct.count == 0:
+                    ct.delete()
+            elif buy is not None:
+                cart = Cart.objects.filter(owner=request.user).first()
+                BoughtFurniture.objects.add(
+                    owner=request.user, furniture=cart.furnitures, bought_at=datetime.now().date())
+                cart.furnitures.delete()
+        cart = Cart.objects.filter(owner=request.user).first()
+        return render(request, "cart.html", {"put": cart.furnitures.all()})
+    except:
+        return render(request, "cart.html")
+
+
+@login_required
+def partners(request: HttpRequest):
+    partners = Partner.objects.all()
+    return render(request, "partners.html", {"partners": partners})
+
+
+class contactForm(forms.Form):
+    phone = forms.CharField(max_length=13)
+    description = forms.CharField(max_length=255)
+    photo = forms.ImageField()
+    username = forms.CharField(max_length=255)
+    email = forms.CharField(max_length=255)
+
+
+@csrf_exempt
+@login_required
+def js_test(request: HttpRequest):
+    form = contactForm()
+    if (request.method == "POST"):
+        form = contactForm(request.POST, request.FILES)
+        if form.is_valid():
+            contact = Contacts()
+            contact.email = form.cleaned_data.get('email')
+            contact.description = form.cleaned_data.get('description')
+            contact.photo = form.cleaned_data.get('photo')
+            contact.phone = form.cleaned_data.get('phone')
+            contact.username = form.cleaned_data.get('username')
+            contact.save()
+    contacts = Contacts.objects.all()
+    return render(request, "js_test.html", {"contacts": contacts})

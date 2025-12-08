@@ -1,0 +1,15 @@
+a:visited {
+    color: var(--mauve);
+}
+
+a:hover {
+    color: var(--blue);
+}
+
+a:link {
+    color: var(--blue);
+}
+
+a:active {
+    color: var(--peach);
+}

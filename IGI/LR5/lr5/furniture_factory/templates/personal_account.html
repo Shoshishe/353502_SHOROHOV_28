@@ -1,14 +1,42 @@
 {% extends 'base.html' %}
 {% block style %}
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid black;
-    }
-  </style>
+
 {% endblock %}
 {% block content %}
+  <nav>
+    <ul style="display: flex; flex-direction: column;">
+      <li>
+        <a href="/faqs">FAQ</a>
+      </li>
+      <li>
+        <a href="/news">News</a>
+      </li>
+      <li>
+        <a href="/contacts">Contacts</a>
+      </li>
+      <li>
+        <a href="/policy">Policy</a>
+      </li>
+      <li>
+        <a href="/comments">Comments</a>
+      </li>
+      <li>
+        <a href="/promocodes">Promocodes</a>
+      </li>
+      <li>
+        <a href="/partners">Partners</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/cart">Cart</a>
+      </li>
+      {% if not user.is_superuser %}
+        <a href="/personal_account">Personal account</a>
+      {% endif %}
+    </ul>
+  </nav>
   {% if role == 'client' %}
     {% if wholesalers.count > 0 %}
       <h2>Wholesalers</h2>
@@ -44,38 +72,49 @@
     {% endif %}
   {% endif %}
   {% if role == 'customer' %}
-    <h2>KILL ME</h2>
     {% if bought.count > 0 %}
       <h2>Bought furnitures</h2>
-      <table>
-        <thead>
+      <table class="parallax-container" id="bought-fur">
+        <thead class="parallax-text">
           <th>Name</th>
           <th>Bought at</th>
           <th>Price</th>
         </thead>
         {% for pr in bought %}
-          <tr>
+          <tr class="bought-row">
             <td>{{ pr.furniture.name }}</td>
             <td>{{ pr.bought_at }}</td>
             <td>{{ pr.furniture.price }}</td>
           </tr>
         {% endfor %}
       </table>
+      <section id="pagination-container"></section>
     {% endif %}
     {% if furnitures.count > 0 %}
       <h2>Furnitures</h2>
       {% for furniture in furnitures %}
-        <div>
-          <tr>
-            <td>Name: {{ furniture.name }}</td>
-            <td>Price: {{ furniture.price }}</td>
-          </tr>
+        <article style="border:1px solid var(--text-color); padding-bottom: 5px; margin: 5px; width: max-content; height: max-content; text-align: center">
+          <table style="caption-side: bottom;">
+            <caption>Our product</caption>
+            <thead>
+              <th>Category</th>
+              <th>Name</th>
+              <th>Price</th>
+            </thead>
+            <tr>
+              <th id="first" headers="category">Favorite:</th>
+              <td>{{ furniture.name }}</td>
+              <td>{{ furniture.price }}</td>
+            </tr>
+          </table>
           <form method="post">
+            {% csrf_token %}
             <input type="hidden" name="name" value="{{ furniture.name }}" />
             <input type="hidden" name="price" value="{{ furniture.name }}" />
-            <input type="submit" value="Buy" />
+            <input type="hidden" name="id" value="{{ furniture.id }}" />
+            <input type="submit" value="Add" />
           </form>
-        </div>
+        </article>
       {% endfor %}
     {% endif %}
     <h2>History of coupons</h2>
@@ -97,4 +136,6 @@
     </table>
   {% endif %}
   <a href="/"><button>Return</button></a>
+  <script defer src="/static/js/parallax.js"></script>
+  <script defer src="/static/js/another_pag.js"></script>
 {% endblock %}

@@ -1,0 +1,160 @@
+@keyframes hammer {
+    0% {
+        opacity: 1;
+        transform: rotate(-20deg) scaleX(-1) scale(0.5);
+    }
+
+    75% {
+        opacity: 0.75;
+        transform: rotate(10deg) scaleX(-1) scale(0.5);
+    }
+
+    100% {
+        transform: rotate(20deg) scaleX(-1) scale(0.5) translateY(100px);
+        opacity: 0;
+        display: none;
+    }
+}
+
+.hammer-animation {
+    opacity: 0;
+    animation-fill-mode: backwards;
+    animation: hammer 1.5s ease-in 1
+}
+
+@keyframes boards {
+    0% {
+        opacity: 1;
+        transform: translateX(-500px) scale(0.9);
+    }
+
+    75% {
+        opacity: 0.25;
+        transform: translateX(-560px) scale(0.9);
+    }
+
+    100% {
+        transform: translateX(-560px) scale(0.9) translateY(100px);
+        opacity: 0;
+        display: none;
+    }
+}
+
+.boards-animation {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    position: absolute;
+    left: 45%;
+    top: 80%;
+    animation: boards 1.5s ease-in 1;
+}
+
+@keyframes bolts {
+    0% {
+        opacity: 1;
+        transform: translateX(-500px) scale(0.25);
+    }
+
+    75% {
+        opacity: 0.25;
+        transform: translateX(-560px) scale(0.25);
+    }
+
+    100% {
+        transform: translateX(-560px) scale(0.25) translateY(100px);
+        opacity: 0;
+        display: none;
+    }
+}
+
+.bolts-animation {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    position: absolute;
+    left: 45%;
+    top: 80%;
+    animation: bolts 1.5s ease-in 1;
+}
+
+.animation-positioner {
+    max-width: 100%;
+    max-height: 100%;
+    height: 500px;
+    position: relative;
+}
+
+.animation-positioner:last-child {
+    margin: 5rem;
+}
+
+@keyframes items {
+    0% {
+        transform: translateY(0px) translateX(-700px);
+        opacity: 0;
+    }
+
+    25% {
+        transform: translateY(100px) translateX(-600px);
+        opacity: 0.25;
+    }
+
+    75% {
+        transform: translateY(-100px) translateX(-400px);
+        opacity: 0.75;
+    }
+
+    100% {
+        transform: translateY(0px) translateX(-350px);
+        opacity: 1;
+    }
+}
+
+.items-animation {
+    opacity: 0;
+    position: absolute;
+    left: 45%;
+    top: 100%;
+    animation-name: items;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+}
+
+.items-animation~.items-animation {
+    margin-left: 20rem;
+}
+
+.last {
+    left: 50%;
+}
+
+@keyframes name {
+    0% {
+        opacity: 0;
+        transform: translateY(200px);
+    }
+
+    75% {
+        opacity: 0.75;
+        transform: translateY(-100px);
+    }
+
+    100% {
+        transform: translateY(-200px);
+        opacity: 1;
+    }
+}
+
+.name-animation {
+    font-size: larger;
+    opacity: 0;
+    position: absolute;
+    left: 47%;
+    top: 125%;
+    animation-name: name;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-delay: 1.7s;
+}

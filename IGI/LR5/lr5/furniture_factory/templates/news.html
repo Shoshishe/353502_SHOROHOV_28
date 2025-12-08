@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
-{% block style %}
-  <style>
-    .box {
-      border: 10px solid black;
-      padding: 10px;
-      margin: 10px;
-    }
-  </style>
-{% endblock %}
+
 {% block content %}
-  <article class="box" style="width: max-content; height: max-content;">
-    <h2>{{ header }}</h2>
-    <image src="{{ image.url }}" width="500" height="300"></image>
-    <p>{{ content }}</p>
-  </article>
+  <section style="width: 700px; height: 400px;  position: relative; top: 0%; left: 0%; background-color: var(--teal);">
+    <img id="chair1" style="width:30%; height: 50%; position: relative; top: 150px; left:20px;" src="../static/chair1.png" />
+    <img id="chair2" style="width:30%; height: 50%; position: relative; top: 20px; left:80px;" src="../static/chair2.png" />
+    <img id="chair3" style="width:30%; height: 50%; position: relative; top: 120px; left:70px;" src="../static/chair3.png" />
+  </section>
+  {% for new in news %}
+    <article class="news-box">
+      <section class="news-header">
+        <h2>{{ new.header }}</h2>
+        <image src="{{ new.image_path.url }}" width="500" height="300"></image>
+      </section>
+      <p class="news-short">Short description: {{ new.shorthand }}</p>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="model_id" value="{{ new.id }}" />
+        <input type="submit" value="See more" />
+      </form>
+    </article>
+  {% endfor %}
   <a href="/"><button>Return</button></a>
+  <script defer src="/static/js/animation.js"></script>
 {% endblock %}

@@ -1,22 +1,15 @@
 {% extends 'base.html' %}
 
 {% block style %}
-  <style>
-    .box {
-      border: 10px solid black;
-      padding: 10px;
-      margin: 10px;
-    }
-    table,
-    th,
-    td {
-      border: 1px solid black;
-    }
-  </style>
+
 {% endblock %}
 
 {% block content %}
   {% if coupons.count > 0 %}
+    <details open>
+      <summary>Coupons will only work at your birthday</summary>
+      <p>According to the 53-rd law of the Republic of Belarus and blah blah blah.</p>
+    </details>
     <h2>All coupons</h2>
     <table>
       <thead>
@@ -34,4 +27,5 @@
     </table>
   {% endif %}
   <a href="/"><button>Return</button></a>
+  <script defer src="/static/js/age_filter.js"></script>
 {% endblock %}

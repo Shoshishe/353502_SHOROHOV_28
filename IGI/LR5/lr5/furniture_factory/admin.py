@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import FAQ, Furniture, FurnitureKind, Client, News, Promocode, Comment, Contacts, About, Vacancy, FurnitureModel, Order, User, Wholesalers, BoughtFurniture, PointsOfDelivery
+from .models import FAQ, Cart, Furniture, FurnitureKind, Client, News, Promocode, Comment, Contacts, About, Vacancy, FurnitureModel, Order, User, Wholesalers, BoughtFurniture, PointsOfDelivery, Partner
 
 # Register your models here.
 
@@ -38,3 +38,5 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Wholesalers)
 admin.site.register(BoughtFurniture)
 admin.site.register(PointsOfDelivery)
+admin.site.register(Partner)
+admin.site.register(Cart)

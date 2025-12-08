@@ -13,12 +13,16 @@
 {% endblock %}
 
 {% block content %}
-  {% for contact in contacts %}
-    <article class="box" style="width: max-content; height: max-content;">
-      <h2>{{ contact.user.username }}</h2>
-      <image src="{{ contact.photo.url }}" width="500" height="300"></image>
-      <p>{{ contact.description }}</p>
-    </article>
-  {% endfor %}
+  <div class="contacts-container">
+    {% for contact in contacts %}
+      <article class="box" style="width: max-content; height: max-content;" itemscope itemtype="http://schema.org/Person">
+        <h2>{{ contact.username }}</h2>
+        {% if contact.photo %}
+          <image src="{{ contact.photo.url }}" width="500" height="300"></image>
+        {% endif %}
+        <p>{{ contact.description }}</p>
+      </article>
+    {% endfor %}
+  </div>
   <a href="/"><button>Return</button></a>
 {% endblock %}

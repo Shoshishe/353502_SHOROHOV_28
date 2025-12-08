@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Bebas+Neue" />
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/styles/base.css' %}" />
     <meta charset="utf-8" />
+    <meta name="description" content="Roga & Kopyta website" />
+    <meta name="keywords" content="HTML, CSS" />
+    <meta name="author" content="Egor Shosh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico" />
     <title>
       {% block title %}
         My shizo app
@@ -10,13 +19,23 @@
     {% block style %}
 
     {% endblock %}
+    {% block scripts %}
+
+    {% endblock %}
   </head>
 
   <body>
     <main>
+      <details id="battery-info">
+        {% comment %} <summary>Battery charge level: 0%</summary>
+        <p>Battery is not charging</p> {% endcomment %}
+      </details>
+      <button id="theme-toggle">Toggle theme</button>
       {% block content %}
 
       {% endblock %}
     </main>
+    <script defer src="/static/js/darkmode.js"></script>
+    <script defer src="/static/js/batteryapi.js"></script>
   </body>
 </html>

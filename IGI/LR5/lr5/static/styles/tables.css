@@ -1,0 +1,39 @@
+table {
+    empty-cells: show;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    border: 2px solid var(--text-color);
+}
+
+tr {
+    border: 1px;
+    color: var(--text-color);
+}
+
+td:nth-child(odd) {
+    color: var(--peach);
+}
+
+td:first-child {
+    font-weight: bold;
+    font-style: italic;
+}
+
+td:nth-child(even) {
+    color: var(--red);
+}
+
+td {
+    border: 2px solid var(--text-color);
+}
+
+th {
+    font-family: sans-serif;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    border: 2px solid var(--text-color);
+}
+
+td:empty {
+    background-color: var(--peach);
+}

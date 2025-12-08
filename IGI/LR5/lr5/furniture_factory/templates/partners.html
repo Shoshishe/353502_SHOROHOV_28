@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block text %}
+  Partners
+{% endblock %}
+{% block style %}
+  <style>
+    .span-border {
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+    }
+    .padded_li {
+      padding-bottom: 2px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <ul class="partner-container">
+    {% for partner in partners %}
+      <li class="padded-li">
+        <span class="span-border box-partner">
+          <header>
+            <p>Partner logo:</p>
+          </header>
+          <img src="{{ partner.logo.url }}" />
+
+          <p>{{ ab.requisites }}</p>
+          <a href="{{ partner.link }}">Company link</a>
+          <p>Company name: {{ partner.name }}</p>
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="/"><button accesskey="x">Return</button></a>
+{% endblock %}

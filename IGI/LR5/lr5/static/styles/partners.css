@@ -1,0 +1,20 @@
+.span-border {
+    background-color: var(--bg-color);
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+.padded-li {
+    padding-bottom: 2px;
+}
+
+*[class^="partner"] {
+    counter-reset: section;
+    list-style: cyrillic;
+}
+
+*[class^="partner"]>li::after {
+    counter-increment: section;
+    content: "(Партнер " counter(section) ")";
+}

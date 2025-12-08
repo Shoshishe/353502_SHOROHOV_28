@@ -15,6 +15,7 @@ urlpatterns = [
     # path("accounts/", include("furniture_factory.urls")),
     path("faqs/", views.faqs, name="faqs"),
     path("news/", views.news),
+    path('news/<int:new_id>/', views.new),
     re_path(r"^faqs/create_faq", views.create_faqs),
     path("faqs/edit/<str:id>/", views.edit, name="ed"),
     path("faqs/delete/<str:id>/", views.delete),
@@ -24,5 +25,8 @@ urlpatterns = [
     path("promocodes/", views.promocodes),
     path("about/", views.about),
     path("comments/", views.comments),
-    re_path(r"^comments/create_comments", views.create_comments)
+    path("partners/", views.partners),
+    path("cart/", views.cart),
+    re_path(r"^comments/create_comments", views.create_comments),
+    path("js_test", views.js_test)
 ]

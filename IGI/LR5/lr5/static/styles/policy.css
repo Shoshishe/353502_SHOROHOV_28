@@ -1,0 +1,94 @@
+.title-policy {
+    z-index: 2;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    font-family: 'Bebas Neue', 'Roboto', Arial, Helvetica, sans-serif;
+    font-kerning: normal;
+}
+
+
+.box-policy {
+    word-spacing: 1rem;
+    word-break: break-all;
+    font-size: 25px;
+    line-height: 150%;
+    text-indent: 5px;
+    letter-spacing: 4px;
+    margin-left: -5px;
+}
+
+.cert-container {
+    border: 75px solid;
+    -moz-border-image: url(../sert.png) 30px round;
+    -webkit-border-image: url(sert.png);
+    -o-border-image: url(../sert.png) 30px round;
+    border-image: url(../sert.png) 20% round;
+    /* background: repeating-conic-gradient(red 0%, yellow 15%, red 33%);
+    background-clip: content-box; */
+
+    width: 600px;
+    height: 450px;
+    position: relative;
+}
+
+.cert-logo {
+    z-index: 2;
+    opacity: 0.1;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transform: scale(1);
+    position: absolute;
+    left: 30%;
+    top: 36%;
+}
+
+.cert {
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.concern-image {
+    z-index: 1;
+    max-width: fit-content;
+    height: 50px;
+    display: block;
+    position: absolute;
+    left: 5%;
+    top: 70%;
+}
+
+.policy-general {
+    z-index: 2;
+    color: transparent;
+    position: absolute;
+    right: 10%;
+    bottom: 5%;
+    width: 40%;
+    word-break: break-all;
+}
+
+.policy-title {
+    z-index: 2;
+    background-image: linear-gradient(red, blue);
+    color: transparent;
+    background-clip: text;
+    position: absolute;
+    left: 25%;
+    top: 40%;
+}
+
+.policy-name>* {
+    z-index: 2;
+    background-image: linear-gradient(red, blue);
+    color: transparent;
+    background-clip: text;
+    position: absolute;
+    left: 40%;
+    bottom: 43%;
+}
